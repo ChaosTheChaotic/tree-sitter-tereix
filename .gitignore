@@ -46,3 +46,7 @@ zig-out/
 *.tgz
 *.zip
 *.jar
+
+# For nix flakes (and direnv)
+.direnv/
+.envrc
