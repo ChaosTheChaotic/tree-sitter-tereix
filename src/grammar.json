@@ -442,15 +442,24 @@
       ]
     },
     "parameter": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "type"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "type"
         }
       ]
     },
@@ -728,6 +737,18 @@
           }
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "STRING",
           "value": "}"
         }
@@ -983,17 +1004,12 @@
           "value": "defer"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "block"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_expression"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
         }
       ]
     },
@@ -1069,6 +1085,10 @@
           "name": "identifier"
         },
         {
+          "type": "STRING",
+          "value": "self"
+        },
+        {
           "type": "SYMBOL",
           "name": "number_literal"
         },
@@ -1119,6 +1139,10 @@
         {
           "type": "SYMBOL",
           "name": "cast_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block"
         }
       ]
     },
@@ -1804,6 +1828,10 @@
   "conflicts": [
     [
       "type",
+      "_expression"
+    ],
+    [
+      "_statement",
       "_expression"
     ]
   ],

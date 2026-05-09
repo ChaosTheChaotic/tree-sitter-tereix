@@ -29,7 +29,10 @@ export default grammar({
 
   extras: ($) => [/\s/, $.comment],
 
-  conflicts: ($) => [[$.type, $._expression]],
+  conflicts: ($) => [
+    [$.type, $._expression],
+    [$._statement, $._expression],
+  ],
 
   rules: {
     source_file: ($) => repeat($._top_level_item),
@@ -115,7 +118,7 @@ export default grammar({
     _parameter_list: ($) =>
       seq($.parameter, repeat(seq(",", $.parameter)), optional(",")),
 
-    parameter: ($) => seq($.type, $.identifier),
+    parameter: ($) => choice(seq($.type, $.identifier), $.type),
 
     struct_definition: ($) =>
       seq(
@@ -174,7 +177,14 @@ export default grammar({
         $.expression_statement,
       ),
 
-    block: ($) => seq(optional("async"), "{", repeat($._statement), "}"),
+    block: ($) =>
+      seq(
+        optional("async"),
+        "{",
+        repeat($._statement),
+        optional($._expression),
+        "}",
+      ),
 
     if_statement: ($) =>
       seq(
@@ -215,7 +225,7 @@ export default grammar({
 
     default_statement: ($) => seq("default", $.block),
 
-    defer_statement: ($) => seq("defer", choice($.block, $._expression)),
+    defer_statement: ($) => seq("defer", $._expression, ";"),
 
     return_statement: ($) => seq("ret", optional($._expression), ";"),
 
@@ -227,6 +237,7 @@ export default grammar({
     _expression: ($) =>
       choice(
         $.identifier,
+        "self",
         $.number_literal,
         $.string_literal,
         $.char_literal,
@@ -240,6 +251,7 @@ export default grammar({
         $.index_expression,
         $.parenthesized_expression,
         $.cast_expression,
+        $.block,
       ),
 
     parenthesized_expression: ($) => seq("(", $._expression, ")"),
