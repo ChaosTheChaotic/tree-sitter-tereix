@@ -1,0 +1,42 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "tereix",
+      "camelcase": "Tereix",
+      "title": "Tereix",
+      "scope": "source.tereix",
+      "file-types": [
+        "tx",
+        "tereix"
+      ],
+      "injection-regex": "^tereix$",
+      "class-name": "TreeSitterTereix"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "GPL-3.0",
+    "description": "Tree-sitter grammar for Tereix",
+    "authors": [
+      {
+        "name": "ChaosTheChaotic",
+        "url": "https://github.com/ChaosTheChaotic"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/ChaosTheChaotic/tree-sitter-tereix.git",
+      "funding": ""
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "java": false,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": false,
+    "zig": true
+  }
+}
