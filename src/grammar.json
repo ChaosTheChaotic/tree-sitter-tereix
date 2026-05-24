@@ -178,10 +178,6 @@
         },
         {
           "type": "STRING",
-          "value": "u128"
-        },
-        {
-          "type": "STRING",
           "value": "usize"
         },
         {
@@ -202,10 +198,6 @@
         },
         {
           "type": "STRING",
-          "value": "i128"
-        },
-        {
-          "type": "STRING",
           "value": "isize"
         },
         {
@@ -223,10 +215,6 @@
         {
           "type": "STRING",
           "value": "f64"
-        },
-        {
-          "type": "STRING",
-          "value": "f128"
         },
         {
           "type": "STRING",
@@ -467,6 +455,18 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "extern"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "STRING",
           "value": "struct"
         },
@@ -475,46 +475,72 @@
           "name": "identifier"
         },
         {
-          "type": "STRING",
-          "value": "{"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "variable_declaration"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "function_definition"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "struct_definition"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "union_definition"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "enum_definition"
-              }
-            ]
-          }
-        },
-        {
-          "type": "STRING",
-          "value": "}"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "{"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "variable_declaration"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "function_definition"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "struct_definition"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "union_definition"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "enum_definition"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": "}"
+                }
+              ]
+            },
+            {
+              "type": "STRING",
+              "value": ";"
+            }
+          ]
         }
       ]
     },
     "union_definition": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "extern"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "STRING",
           "value": "union"
@@ -524,40 +550,54 @@
           "name": "identifier"
         },
         {
-          "type": "STRING",
-          "value": "{"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "variable_declaration"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "function_definition"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "struct_definition"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "union_definition"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "enum_definition"
-              }
-            ]
-          }
-        },
-        {
-          "type": "STRING",
-          "value": "}"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "{"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "variable_declaration"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "function_definition"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "struct_definition"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "union_definition"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "enum_definition"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": "}"
+                }
+              ]
+            },
+            {
+              "type": "STRING",
+              "value": ";"
+            }
+          ]
         }
       ]
     },
@@ -1077,6 +1117,40 @@
         }
       ]
     },
+    "sizeof_token": {
+      "type": "STRING",
+      "value": "sizeof"
+    },
+    "sizeof_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "sizeof_token"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
     "_expression": {
       "type": "CHOICE",
       "members": [
@@ -1139,6 +1213,10 @@
         {
           "type": "SYMBOL",
           "name": "cast_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "sizeof_expression"
         },
         {
           "type": "SYMBOL",

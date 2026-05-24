@@ -119,36 +119,48 @@ export default grammar({
 
     struct_definition: ($) =>
       seq(
+        optional("extern"),
         "struct",
         $.identifier,
-        "{",
-        repeat(
-          choice(
-            $.variable_declaration,
-            $.function_definition,
-            $.struct_definition,
-            $.union_definition,
-            $.enum_definition,
+        choice(
+          seq(
+            "{",
+            repeat(
+              choice(
+                $.variable_declaration,
+                $.function_definition,
+                $.struct_definition,
+                $.union_definition,
+                $.enum_definition,
+              ),
+            ),
+            "}",
           ),
+          ";",
         ),
-        "}",
       ),
 
     union_definition: ($) =>
       seq(
+        optional("extern"),
         "union",
         $.identifier,
-        "{",
-        repeat(
-          choice(
-            $.variable_declaration,
-            $.function_definition,
-            $.struct_definition,
-            $.union_definition,
-            $.enum_definition,
+        choice(
+          seq(
+            "{",
+            repeat(
+              choice(
+                $.variable_declaration,
+                $.function_definition,
+                $.struct_definition,
+                $.union_definition,
+                $.enum_definition,
+              ),
+            ),
+            "}",
           ),
+          ";",
         ),
-        "}",
       ),
 
     enum_definition: ($) =>
@@ -231,6 +243,11 @@ export default grammar({
 
     expression_statement: ($) => seq($._expression, ";"),
 
+    sizeof_token: ($) => "sizeof",
+
+    sizeof_expression: ($) =>
+      seq($.sizeof_token, "(", choice($.type, $._expression), ")"),
+
     _expression: ($) =>
       choice(
         $.identifier,
@@ -248,6 +265,7 @@ export default grammar({
         $.index_expression,
         $.parenthesized_expression,
         $.cast_expression,
+        $.sizeof_expression,
         $.block,
       ),
 
