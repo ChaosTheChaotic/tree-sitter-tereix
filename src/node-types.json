@@ -548,11 +548,27 @@
       "required": true,
       "types": [
         {
+          "type": "enum_definition",
+          "named": true
+        },
+        {
           "type": "enum_member",
           "named": true
         },
         {
+          "type": "function_definition",
+          "named": true
+        },
+        {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "struct_definition",
+          "named": true
+        },
+        {
+          "type": "union_definition",
           "named": true
         }
       ]

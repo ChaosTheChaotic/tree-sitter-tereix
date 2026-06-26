@@ -32,6 +32,7 @@ export default grammar({
   conflicts: ($) => [
     [$.type, $._expression],
     [$._statement, $._expression],
+    [$.type, $.enum_member],
   ],
 
   rules: {
@@ -163,13 +164,25 @@ export default grammar({
         ),
       ),
 
+    enum_member: ($) =>
+      seq($.identifier, optional(seq("=", $._expression)), optional(",")),
+
     enum_definition: ($) =>
-      seq("enum", $.identifier, "{", optional($._enum_member_list), "}"),
-
-    _enum_member_list: ($) =>
-      seq($.enum_member, repeat(seq(",", $.enum_member)), optional(",")),
-
-    enum_member: ($) => seq($.identifier, optional(seq("=", $._expression))),
+      seq(
+        "enum",
+        $.identifier,
+        "{",
+        repeat(
+          choice(
+            $.enum_member,
+            $.function_definition,
+            $.struct_definition,
+            $.union_definition,
+            $.enum_definition,
+          ),
+        ),
+        "}",
+      ),
 
     _statement: ($) =>
       choice(
