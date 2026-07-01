@@ -1335,6 +1335,11 @@
     }
   },
   {
+    "type": "number_literal",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "parameter",
     "named": true,
     "fields": {},
@@ -2382,10 +2387,6 @@
   },
   {
     "type": "null_literal",
-    "named": true
-  },
-  {
-    "type": "number_literal",
     "named": true
   },
   {

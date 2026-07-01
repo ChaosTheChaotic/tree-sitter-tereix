@@ -1855,8 +1855,17 @@
       "value": "[a-zA-Z_][a-zA-Z0-9_]*"
     },
     "number_literal": {
-      "type": "PATTERN",
-      "value": "\\d+(\\.\\d+)?"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "\\d+(\\.\\d+)?"
+        },
+        {
+          "type": "PATTERN",
+          "value": "0[xX][0-9a-fA-F]+"
+        }
+      ]
     },
     "string_literal": {
       "type": "PATTERN",

@@ -377,7 +377,7 @@ export default grammar({
 
     identifier: ($) => /[a-zA-Z_][a-zA-Z0-9_]*/,
 
-    number_literal: ($) => /\d+(\.\d+)?/,
+    number_literal: ($) => choice(/\d+(\.\d+)?/, /0[xX][0-9a-fA-F]+/),
 
     string_literal: ($) => /"([^"\\]|\\.)*"/,
 
