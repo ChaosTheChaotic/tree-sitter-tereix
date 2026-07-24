@@ -32,7 +32,8 @@ export default grammar({
   conflicts: ($) => [
     [$.type, $._expression],
     [$._statement, $._expression],
-    [$.type, $.enum_member],
+    [$._expression, $.qualified_identifier],
+    [$.enum_member, $.qualified_identifier],
   ],
 
   rules: {
@@ -66,7 +67,7 @@ export default grammar({
             "&",
           ),
         ),
-        choice($.primitive_type, $.identifier, "self"),
+        choice($.primitive_type, $.qualified_identifier, "self"),
         repeat(seq("[", optional($._expression), "]")),
       ),
 
@@ -376,6 +377,9 @@ export default grammar({
       ),
 
     identifier: ($) => /[a-zA-Z_][a-zA-Z0-9_]*/,
+
+    qualified_identifier: ($) =>
+      seq($.identifier, repeat(seq(".", $.identifier))),
 
     number_literal: ($) => choice(/\d+(\.\d+)?/, /0[xX][0-9a-fA-F]+/),
 
