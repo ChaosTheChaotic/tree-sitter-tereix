@@ -228,9 +228,10 @@ export default grammar({
         "for",
         "(",
         optional(
-          choice(
-            seq($.declaration_item, repeat(seq(",", $.declaration_item))),
-            seq($._expression, repeat(seq(",", $._expression))),
+          seq(
+            choice($.declaration_item, $._expression),
+            repeat(seq(",", choice($.declaration_item, $._expression))),
+            optional(","),
           ),
         ),
         ";",
