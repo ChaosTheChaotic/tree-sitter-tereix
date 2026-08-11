@@ -101,8 +101,10 @@ export default grammar({
 
     extern_block: ($) => seq("extern", "{", repeat($._declaration), "}"),
 
-    variable_declaration: ($) =>
-      seq($.type, $.identifier, optional(seq("=", $._expression)), ";"),
+    declaration_item: ($) =>
+      seq($.type, $.identifier, optional(seq("=", $._expression))),
+
+    variable_declaration: ($) => seq($.declaration_item, ";"),
 
     function_definition: ($) =>
       seq(
@@ -225,10 +227,16 @@ export default grammar({
       seq(
         "for",
         "(",
-        choice($.variable_declaration, seq(optional($._expression), ";")),
-        optional($._expression),
+        optional(
+          choice(
+            seq($.declaration_item, repeat(seq(",", $.declaration_item))),
+            seq($._expression, repeat(seq(",", $._expression))),
+          ),
+        ),
         ";",
         optional($._expression),
+        ";",
+        optional(seq($._expression, repeat(seq(",", $._expression)))),
         ")",
         $.block,
       ),
